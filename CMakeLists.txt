@@ -38,8 +38,13 @@ include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory(SFML)
 
+set(SCRIPTING_SOURCES
+	src/scripting/RubyWrapper.cpp
+)
+
 # Load source files
 set(SOURCES 
+	${SCRIPTING_SOURCES}
 	Main.cpp
 )
 

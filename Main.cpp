@@ -2,20 +2,10 @@
 
 using namespace std;
 
-static mrb_value mrb_greet(mrb_state* mrb, mrb_value self) {
-	printf("Hello, mruby!\n");
-	return mrb_nil_value();
-}
-
-int main()
-{
-	mrb_state *mrb = mrb_open();
-
-	mrb_define_method(mrb, mrb->object_class, "greet!", mrb_greet, MRB_ARGS_NONE());
-
-	char code[] = "greet!";
-
-	mrb_load_string(mrb, code);
+int main() {
+	auto mrb = RubyWrapper();
+	mrb.exec("class Test;def initialize(arg); puts arg; end; end");
+	mrb.exec("Test.new('This is a test')");
 
 	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Inuhh Shinvasion 2");
 	window->setVerticalSyncEnabled(true);
