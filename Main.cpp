@@ -3,7 +3,7 @@
 using namespace std;
 
 static mrb_value mrb_greet(mrb_state* mrb, mrb_value self) {
-	printf("Hello, mrubyyyy!\n");
+	printf("Hello, mruby!\n");
 	return mrb_nil_value();
 }
 
@@ -17,7 +17,13 @@ int main()
 
 	mrb_load_string(mrb, code);
 
-	sf::RenderWindow bla(sf::VideoMode(800, 600), "The Adventure of Sarvihh", sf::Style::Fullscreen);
+	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Inuhh Shinvasion 2");
+	window->setVerticalSyncEnabled(true);
+
+	while (window->isOpen()) {
+		window->clear();
+		window->display();
+	}
 
 	return 0;
 }
