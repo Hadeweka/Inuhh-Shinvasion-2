@@ -16,5 +16,8 @@ int main()
 	char code[] = "greet!";
 
 	mrb_load_string(mrb, code);
+
+	sf::RenderWindow bla(sf::VideoMode(800, 600), "The Adventure of Sarvihh", sf::Style::Fullscreen);
+
 	return 0;
 }

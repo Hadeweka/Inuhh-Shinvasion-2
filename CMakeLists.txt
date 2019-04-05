@@ -7,23 +7,19 @@ set(CMAKE_SHARED_LINKER_FLAGS
 set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS}")
 
+include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
+
 # Project name
 project(InuhhShinvasion2)
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 17)
 
-# Load SFML libraries
-set(SFML_STATIC_LIBRARIES TRUE)
-find_package(SFML COMPONENTS graphics audio REQUIRED)
-
 # Check Ruby and mRuby dependencies
-find_program(RUBY_EXECUTABLE ruby)
-#find_package(BISON)
+find_program(RUBY_EXECUTABLE ruby) 
+#find_package(BISON) 
 
 # Load mRuby
-include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
-
 set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.lib")
 
 ExternalProject_Add(mruby
@@ -38,13 +34,16 @@ ExternalProject_Add(mruby
   BUILD_BYPRODUCTS "${MRUBY_LIBRARIES}")
 include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
 
+# Load SFML libraries
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+add_subdirectory(SFML)
+
 # Load source files
 set(SOURCES 
 	Main.cpp
 )
 
 # Create executable and link libraries
-
 add_executable(InuhhShinvasion2 ${SOURCES})
-target_link_libraries(InuhhShinvasion2 PRIVATE sfml-graphics sfml-audio sfml-system sfml-window ${MRUBY_LIBRARIES} Ws2_32)
+target_link_libraries(InuhhShinvasion2 ${MRUBY_LIBRARIES} sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)
 add_dependencies(InuhhShinvasion2 mruby)
