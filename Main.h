@@ -4,4 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "src/scripting/RubyWrapper.h"
+#include <mruby.h>
+#include <mruby/compile.h>
+
+#include "src/scripting/Helper.h"

@@ -38,12 +38,17 @@ include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory(SFML)
 
+set(COLLISION_SOURCES
+	src/collisions/Primitive.cpp
+)
+
 set(SCRIPTING_SOURCES
-	src/scripting/RubyWrapper.cpp
+	src/scripting/Helper.cpp
 )
 
 # Load source files
 set(SOURCES 
+	${COLLISION_SOURCES}
 	${SCRIPTING_SOURCES}
 	Main.cpp
 )
@@ -52,3 +57,19 @@ set(SOURCES
 add_executable(InuhhShinvasion2 ${SOURCES})
 target_link_libraries(InuhhShinvasion2 ${MRUBY_LIBRARIES} sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)
 add_dependencies(InuhhShinvasion2 mruby)
+
+# Compile ruby scripts to bytecode
+
+file(GLOB RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
+
+foreach(RUBYSCRIPT ${RUBYSCRIPTS})
+	MESSAGE(${RUBYSCRIPT})
+	get_filename_component(COMPILED_SCRIPT ${RUBYSCRIPT} NAME_WE)
+
+	add_custom_target(Target${COMPILED_SCRIPT} ALL
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/scripts
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -o ${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.mrb ${RUBYSCRIPT}
+		DEPENDS ${RUBYSCRIPT}
+	)
+
+endforeach(RUBYSCRIPT)
