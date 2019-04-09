@@ -1,10 +1,57 @@
 ﻿#include "Main.h"
+#include <mruby/variable.h>
+#include <mruby/data.h>
 
 void test(mrb_state* mrb) {
 
 	execute_ruby_bytecode_file(mrb, "scripts/test.mrb");
 
 }
+
+mrb_value example_method(mrb_state* mrb, mrb_value self)
+{
+	puts("Executing example command!");
+	return self;
+}
+
+void mrb_example_gem_init(mrb_state* mrb)
+{
+	mrb_define_method(mrb, mrb->kernel_module, "example_method", example_method, MRB_ARGS_NONE());
+}
+
+
+
+static void free_primitive(mrb_state* mrb, void* p_) {
+	static_cast<Primitive*>(p_)->~Primitive();
+}
+
+static const struct mrb_data_type primitive_data_type = {
+	"primitive", free_primitive
+};
+
+static mrb_value ruby_primitive_init(mrb_state* mrb, mrb_value self) {
+
+	Primitive* primitive = new Primitive(PrimitiveType::RECTANGLE);
+	mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@prim"), mrb_obj_value(Data_Wrap_Struct(mrb, mrb->object_class, &primitive_data_type, primitive)));
+
+	std::cout << "init works!" << std::endl;
+
+	return mrb_true_value();
+
+}
+
+static mrb_value ruby_primitive_test(mrb_state* mrb, mrb_value self) {
+
+	Primitive* primitive;
+	Data_Get_Struct(mrb, mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@prim")), &primitive_data_type, primitive);
+
+	std::cout << "Type: " << static_cast<unsigned int>(primitive->get_type()) << std::endl;
+
+	return mrb_nil_value();
+
+}
+
+
 
 int main() {
 
@@ -14,7 +61,21 @@ int main() {
 	mrb_load_string(mrb, "Test.new('This is a test')");
 
 	test(mrb);
-	mrb_load_string(mrb, "puts 'Test value ' + Shape.new(30, 10).a.to_s");
+
+	mrb_example_gem_init(mrb);
+	mrb_load_string(mrb, "example_method");
+
+
+
+	auto ruby_primitive_class = mrb_define_class(mrb, "Primitive", mrb->object_class);
+	mrb_define_method(mrb, ruby_primitive_class, "initialize", ruby_primitive_init, MRB_ARGS_REQ(0));
+	mrb_define_method(mrb, ruby_primitive_class, "test", ruby_primitive_test, MRB_ARGS_REQ(0));
+
+	mrb_load_string(mrb, "p = Primitive.new;p.test");
+
+	if (mrb->exc) mrb_print_error(mrb);
+	
+
 
 	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Inuhh Shinvasion 2");
 	window->setVerticalSyncEnabled(true);

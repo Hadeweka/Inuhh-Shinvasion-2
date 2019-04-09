@@ -1,28 +1,25 @@
 #include "Primitive.h"
 
-Primitive::Primitive() {
+Primitive::Primitive(PrimitiveType type, double param_1, double param_2, double param_3, double param_4) {
+
+	this->type = type;
+
+	this->param_1 = param_1;
+	this->param_2 = param_2;
+	this->param_3 = param_3;
+	this->param_4 = param_4;
 
 }
 
-PrimitiveRectangle::PrimitiveRectangle(double width, double height) {
+PrimitiveType Primitive::get_type() { return type; }
 
-	this->width = width;
-	this->height = height;
+double& Primitive::width() { return param_1; }
+double& Primitive::height() { return param_2; }
 
-}
+double& Primitive::half_width() { return param_1; }
+double& Primitive::half_height() { return param_2; }
 
-PrimitiveEllipse::PrimitiveEllipse(double half_width, double half_height) {
-
-	this->half_width = half_width;
-	this->half_height = half_height;
-
-}
-
-PrimitiveTriangle::PrimitiveTriangle(double dx1, double dy1, double dx2, double dy2) {
-
-	this->dx1 = dx1;
-	this->dy1 = dy1;
-	this->dx2 = dx2;
-	this->dy2 = dy2;
-
-}
+double& Primitive::dx1() { return param_1; }
+double& Primitive::dy1() { return param_2; }
+double& Primitive::dx2() { return param_3; }
+double& Primitive::dy2() { return param_4; }

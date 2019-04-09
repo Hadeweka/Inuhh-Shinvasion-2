@@ -40,6 +40,7 @@ add_subdirectory(SFML)
 
 set(COLLISION_SOURCES
 	src/collisions/Primitive.cpp
+	src/collisions/Shape.cpp
 )
 
 set(SCRIPTING_SOURCES

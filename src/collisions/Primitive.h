@@ -1,42 +1,36 @@
+enum class PrimitiveType {
+	DUMMY = 0,
+	RECTANGLE,
+	ELLIPSE,
+	TRIANGLE
+};
+
 class Primitive {
 
 public:
 
-	Primitive();
+	Primitive(PrimitiveType type, double param_1 = 0.0, double param_2 = 0.0, double param_3 = 0.0, double param_4 = 0.0);
 
-};
+	PrimitiveType get_type();
+	
+	double& width();
+	double& height();
 
-class PrimitiveRectangle : public Primitive {
+	double& half_width();
+	double& half_height();
 
-public:
+	double& dx1();
+	double& dy1();
+	double& dx2();
+	double& dy2();
 
-	PrimitiveRectangle(double width, double height);
+private:
 
-	double width;
-	double height;
+	PrimitiveType type;
 
-};
-
-class PrimitiveEllipse : public Primitive {
-
-public:
-
-	PrimitiveEllipse(double half_width, double half_height);
-
-	double half_width;
-	double half_height;
-
-};
-
-class PrimitiveTriangle : public Primitive {
-
-public:
-
-	PrimitiveTriangle(double dx1, double dy1, double dx2, double dy2);
-
-	double dx1;
-	double dy1;
-	double dx2;
-	double dy2;
+	double param_1;
+	double param_2;
+	double param_3;
+	double param_4;
 
 };

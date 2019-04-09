@@ -8,3 +8,5 @@
 #include <mruby/compile.h>
 
 #include "src/scripting/Helper.h"
+
+#include "src/collisions/Shape.h"
