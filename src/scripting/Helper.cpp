@@ -1,6 +1,6 @@
 #include "Helper.h"
 
-void execute_ruby_bytecode_file(mrb_state* mrb, std::string const& filename) {
+void MrbWrap::execute_bytecode_file(mrb_state* mrb, std::string const& filename) {
 
 	FILE* f;
 

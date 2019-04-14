@@ -4,7 +4,7 @@
 
 void test(mrb_state* mrb) {
 
-	execute_ruby_bytecode_file(mrb, "scripts/test.mrb");
+	MrbWrap::execute_bytecode_file(mrb, "scripts/test.mrb");
 
 }
 
@@ -27,7 +27,7 @@ static void free_primitive(mrb_state* mrb, void* p_) {
 
 static mrb_value ruby_primitive_init(mrb_state* mrb, mrb_value self) {
 
-	ruby_convert_to_instance_variable(mrb, self, "@prim", "primitive", new Primitive(PrimitiveType::ELLIPSE));
+	MrbWrap::convert_to_instance_variable(mrb, self, "@prim", "primitive", new Primitive(PrimitiveType::ELLIPSE));
 
 	std::cout << "init works!" << std::endl;
 

@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Check Ruby and mRuby dependencies
 find_program(RUBY_EXECUTABLE ruby) 
-#find_package(BISON) 
+find_program(BISON_EXECUTABLE bison)
 
 # Load mRuby
 set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.lib")
