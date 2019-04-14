@@ -23,7 +23,11 @@ void mrb_example_gem_init(mrb_state* mrb)
 
 static mrb_value ruby_primitive_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_instance_variable<Primitive>(mrb, self, "@prim", "primitive", PrimitiveType::ELLIPSE);
+	int primitive_type;
+
+	mrb_get_args(mrb, "i", &primitive_type);
+
+	MrbWrap::convert_to_instance_variable<Primitive>(mrb, self, "@prim", "primitive", static_cast<PrimitiveType>(primitive_type));
 
 	std::cout << "init works!" << std::endl;
 
@@ -61,10 +65,11 @@ int main() {
 
 	auto ruby_primitive_class = mrb_define_class(mrb, "Primitive", mrb->object_class);
 
-	mrb_define_method(mrb, ruby_primitive_class, "initialize", ruby_primitive_init, MRB_ARGS_REQ(0));
+	mrb_define_method(mrb, ruby_primitive_class, "initialize", ruby_primitive_init, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_primitive_class, "test", ruby_primitive_test, MRB_ARGS_REQ(0));
 
-	MrbWrap::execute_string(mrb, "p = Primitive.new;p.test");
+	MrbWrap::execute_string(mrb, "p = Primitive.new(1);p.test");
+	MrbWrap::execute_string(mrb, "q = Primitive.new(2);q.test");
 
 	if (mrb->exc) mrb_print_error(mrb);
 	
