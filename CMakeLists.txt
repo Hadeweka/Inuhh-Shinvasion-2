@@ -44,7 +44,6 @@ include_directories(${CMAKE_BINARY_DIR})
 
 file(GLOB RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
 
-set(RUBY_COMPILED_SOURCES "")
 set(RUBY_COMPILED_TARGETS "")
 
 foreach(RUBYSCRIPT ${RUBYSCRIPTS})
@@ -70,14 +69,12 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 		MESSAGE("Found Ruby script for C source file: ${RUBYSCRIPT}")
 
 		add_custom_target(Target${COMPILED_SCRIPT}
-			#BYPRODUCTS ${CMAKE_SOURCE_DIR}/compiled_scripts/${COMPILED_SCRIPT}.h
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
 			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -Bcompiled_ruby_${COMPILED_SCRIPT} -o ${CMAKE_BINARY_DIR}/compiled_scripts/${COMPILED_SCRIPT}.h ${RUBYSCRIPT}
 			DEPENDS ${RUBYSCRIPT} mruby
 			VERBATIM
 		)
 
-		set(RUBY_COMPILED_SOURCES ${CMAKE_BINARY_DIR}/compiled_scripts/${COMPILED_SCRIPT}.h ${RUBY_COMPILED_SOURCES})
 		set(RUBY_COMPILED_TARGETS Target${COMPILED_SCRIPT} ${RUBY_COMPILED_TARGETS})
 
 	endif()
