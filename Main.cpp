@@ -72,6 +72,10 @@ int main() {
 	MrbWrap::execute_string(mrb, "q = Primitive.new(2);q.test");
 
 	if (mrb->exc) mrb_print_error(mrb);
+
+	//! Test 3
+
+	MrbWrap::execute_bytecode(mrb, compiled_ruby_test2);
 	
 	//! Actual code
 

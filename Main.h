@@ -6,3 +6,5 @@
 
 #include "src/scripting/Helper.h"
 #include "src/collisions/Shape.h"
+
+#include "compiled_scripts/test2.h"

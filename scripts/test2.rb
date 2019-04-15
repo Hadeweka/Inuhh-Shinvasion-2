@@ -1,4 +1,6 @@
-class Shape
+#INCLUDE_AS_C
+
+class TestClass
 
 	attr_reader :a, :b
 
@@ -9,4 +11,4 @@ class Shape
 
 end
 
-puts "Test program loaded, heyho!"
+puts "Test program 2 loaded once more"
