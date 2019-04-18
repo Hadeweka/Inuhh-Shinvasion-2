@@ -13,13 +13,16 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 project(InuhhShinvasion2)
 
 # C++ Standard
+
 set(CMAKE_CXX_STANDARD 17)
 
 # Check Ruby and mRuby dependencies
+
 find_program(RUBY_EXECUTABLE ruby) 
 find_program(BISON_EXECUTABLE bison)
 
 # Load mRuby
+
 set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.lib")
 
 ExternalProject_Add(mruby
@@ -35,6 +38,7 @@ ExternalProject_Add(mruby
 include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
 
 # Load SFML libraries
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory(SFML)
 
@@ -91,6 +95,7 @@ set(SCRIPTING_SOURCES
 )
 
 # Load source files
+
 set(SOURCES 
 	${COLLISION_SOURCES}
 	${SCRIPTING_SOURCES}
@@ -98,6 +103,7 @@ set(SOURCES
 )
 
 # Create executable and link libraries
+
 add_executable(InuhhShinvasion2 ${SOURCES})
 add_dependencies(InuhhShinvasion2 mruby ${RUBY_COMPILED_TARGETS})
 target_link_libraries(InuhhShinvasion2 ${MRUBY_LIBRARIES} sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)

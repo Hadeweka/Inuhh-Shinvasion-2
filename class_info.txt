@@ -1,0 +1,7 @@
+Pure Ruby classes:
+Scene - Base class for game logic and drawing, can be inherited for different use cases
+
+Pseudo-Ruby C++-Wrapper classes:
+Window - Singleton-like wrapper for SFML RenderWindow class
+Game - Singleton-like wrapper for the base game
+Primitive - Wrapper for geometric primitives

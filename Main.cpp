@@ -2,21 +2,10 @@
 
 //! Test 1
 
-void test(mrb_state* mrb) {
-
-	MrbWrap::execute_bytecode_file(mrb, "scripts/test.mrb");
-
-}
-
 mrb_value example_method(mrb_state* mrb, mrb_value self)
 {
 	puts("Executing example command!");
 	return self;
-}
-
-void mrb_example_gem_init(mrb_state* mrb)
-{
-	mrb_define_method(mrb, mrb->kernel_module, "example_method", example_method, MRB_ARGS_NONE());
 }
 
 //! Test 2
@@ -27,7 +16,7 @@ static mrb_value ruby_primitive_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "i", &primitive_type);
 
-	MrbWrap::convert_to_instance_variable<Primitive>(mrb, self, "@prim", "primitive", static_cast<PrimitiveType>(primitive_type));
+	MrbWrap::convert_to_instance_variable<Primitive>(mrb, self, "@_prim", "primitive", static_cast<PrimitiveType>(primitive_type));
 
 	std::cout << "init works!" << std::endl;
 
@@ -37,7 +26,7 @@ static mrb_value ruby_primitive_init(mrb_state* mrb, mrb_value self) {
 
 static mrb_value ruby_primitive_test(mrb_state* mrb, mrb_value self) {
 
-	auto primitive = MrbWrap::convert_from_instance_variable<Primitive>(mrb, self, "@prim");
+	auto primitive = MrbWrap::convert_from_instance_variable<Primitive>(mrb, self, "@_prim");
 
 	std::cout << "Type: " << static_cast<unsigned int>(primitive->get_type()) << std::endl;
 
@@ -56,9 +45,9 @@ int main() {
 	MrbWrap::execute_string(mrb, "class Test;def initialize(arg); puts arg; end; end");
 	MrbWrap::execute_string(mrb, "Test.new('This is a test')");
 
-	test(mrb);
+	MrbWrap::execute_bytecode_file(mrb, "scripts/test.mrb");
 
-	mrb_example_gem_init(mrb);
+	mrb_define_method(mrb, mrb->kernel_module, "example_method", example_method, MRB_ARGS_NONE());
 	MrbWrap::execute_string(mrb, "example_method");
 
 	//! Test 2
