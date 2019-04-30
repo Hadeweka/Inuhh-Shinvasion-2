@@ -31,6 +31,7 @@ class GlobalContainer
 	end
 
 	def size(subclass)
+		return 0 if !@values[subclass]
 		return @values[subclass].size
 	end
 
