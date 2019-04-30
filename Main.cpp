@@ -45,7 +45,7 @@ int main() {
 	MrbWrap::execute_string(mrb, "class Test;def initialize(arg); puts arg; end; end");
 	MrbWrap::execute_string(mrb, "Test.new('This is a test')");
 
-	MrbWrap::execute_bytecode_file(mrb, "scripts/test.mrb");
+	MrbWrap::execute_script_file(mrb, "scripts/test.rb");
 
 	mrb_define_method(mrb, mrb->kernel_module, "example_method", example_method, MRB_ARGS_NONE());
 	MrbWrap::execute_string(mrb, "example_method");
@@ -65,6 +65,10 @@ int main() {
 	//! Test 3
 
 	MrbWrap::execute_bytecode(mrb, compiled_ruby_test2);
+
+	MrbWrap::execute_script_file(mrb, "scripts/GlobalContainer.rb");
+	MrbWrap::execute_script_file(mrb, "scripts/Entity.rb");
+	if (mrb->exc) mrb_print_error(mrb);
 	
 	//! Actual code
 

@@ -9,10 +9,11 @@
 
 namespace MrbWrap {
 
-	//! Three different ways to execute mruby code
+	//! Some different ways to execute mruby code
 
 	void execute_string(mrb_state* mrb, std::string const& code);	//! Execute a string containing mruby code
-	void execute_bytecode_file(mrb_state* mrb, std::string const& filename);	//! Execute a file containing mruby bytecode
+	void execute_script_file(mrb_state* mrb, std::string const& filename);	//! Ececute a mruby script file
+	[[deprecated("May not work in many situations")]] void execute_bytecode_file(mrb_state* mrb, std::string const& filename);	//! Execute a file containing mruby bytecode
 	void execute_bytecode(mrb_state* mrb, const uint8_t* symbol_array);	//! Execute embedded bytecode from a C array
 
 	template <class T> static void free_data(mrb_state* mrb, void* object_ptr) {

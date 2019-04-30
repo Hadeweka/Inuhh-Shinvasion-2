@@ -59,14 +59,23 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 
 	if(${FOUND_CONTENT} EQUAL -1)
 
-		MESSAGE("Found Ruby script for bytecode: ${RUBYSCRIPT}")
+		#MESSAGE("Found Ruby script for bytecode: ${RUBYSCRIPT}")
 
-		add_custom_target(Target${COMPILED_SCRIPT} ALL
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/scripts
-			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -o ${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.mrb ${RUBYSCRIPT}
-			DEPENDS ${RUBYSCRIPT} mruby
-			VERBATIM
-		)
+		#add_custom_target(Target${COMPILED_SCRIPT} ALL
+		#	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/scripts
+		#	COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -o ${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.mrb ${RUBYSCRIPT}
+		#	DEPENDS ${RUBYSCRIPT} mruby
+		#	VERBATIM
+		#)
+
+		#MESSAGE("Found Ruby script for direct copy: ${RUBYSCRIPT}")
+
+		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts)
+
+		configure_file(
+			${RUBYSCRIPT}
+			${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.rb
+		COPYONLY)
 
 	else()	
 
