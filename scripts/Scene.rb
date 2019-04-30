@@ -1,5 +1,3 @@
-#INCLUDE_AS_C
-
 class Scene
 
 	# Methods for internal stuff, don't change these if inherited

@@ -94,6 +94,10 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 
 endforeach(RUBYSCRIPT)
 
+set(CORE_SOURCES
+	src/core/Window.cpp
+)
+
 set(COLLISION_SOURCES
 	src/collisions/Primitive.cpp
 	src/collisions/Shape.cpp
@@ -106,6 +110,7 @@ set(SCRIPTING_SOURCES
 # Load source files
 
 set(SOURCES 
+	${CORE_SOURCES}
 	${COLLISION_SOURCES}
 	${SCRIPTING_SOURCES}
 	Main.cpp

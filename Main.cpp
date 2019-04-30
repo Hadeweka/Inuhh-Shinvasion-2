@@ -72,13 +72,25 @@ int main() {
 	
 	//! Actual code
 
-	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Inuhh Shinvasion 2");
-	window->setVerticalSyncEnabled(true);
+	auto ruby_window_class = mrb_define_class(mrb, "Window", mrb->object_class);
 
-	while (window->isOpen()) {
-		window->clear();
-		window->display();
-	}
+	mrb_define_method(mrb, ruby_window_class, "initialize", ruby_window_init, MRB_ARGS_REQ(0));
+	mrb_define_method(mrb, ruby_window_class, "clear", ruby_window_clear, MRB_ARGS_REQ(0));
+	mrb_define_method(mrb, ruby_window_class, "display", ruby_window_display, MRB_ARGS_REQ(0));
+
+	MrbWrap::execute_script_file(mrb, "scripts/Scene.rb");
+
+	MrbWrap::execute_string(mrb, "$window = Window.new;$scene = Scene.new");
+
+	MrbWrap::execute_string(mrb, "while true do\n$scene.main_draw\nend");
+
+	//auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Inuhh Shinvasion 2");
+	//window->setVerticalSyncEnabled(true);
+
+	//while (window->isOpen()) {
+	//	window->clear();
+	//	window->display();
+	//}
 
 	mrb_close(mrb);
 

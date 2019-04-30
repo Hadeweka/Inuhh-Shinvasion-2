@@ -8,3 +8,5 @@
 #include "src/collisions/Shape.h"
 
 #include "compiled_scripts/test2.h"
+
+#include "src/core/Window.h"
