@@ -1,96 +1,19 @@
 ﻿#include "Main.h"
 
-//! Test 1
-
-mrb_value example_method(mrb_state* mrb, mrb_value self)
-{
-	puts("Executing example command!");
-	return self;
-}
-
-//! Test 2
-
-static mrb_value ruby_primitive_init(mrb_state* mrb, mrb_value self) {
-
-	int primitive_type;
-
-	mrb_get_args(mrb, "i", &primitive_type);
-
-	MrbWrap::convert_to_instance_variable<Primitive>(mrb, self, "@_prim", "primitive", static_cast<PrimitiveType>(primitive_type));
-
-	std::cout << "init works!" << std::endl;
-
-	return self;
-
-}
-
-static mrb_value ruby_primitive_test(mrb_state* mrb, mrb_value self) {
-
-	auto primitive = MrbWrap::convert_from_instance_variable<Primitive>(mrb, self, "@_prim");
-
-	std::cout << "Type: " << static_cast<unsigned int>(primitive->get_type()) << std::endl;
-
-	return mrb_nil_value();
-
-}
-
-//! Actual main method
-
 int main() {
 
 	auto mrb = mrb_open();
 
-	//! Test 1
+	MRB_LOAD_SCRIPT(mrb, GlobalContainer);
+	MRB_LOAD_SCRIPT(mrb, Entity);
 
-	MrbWrap::execute_string(mrb, "class Test;def initialize(arg); puts arg; end; end");
-	MrbWrap::execute_string(mrb, "Test.new('This is a test')");
+	setup_ruby_class_window(mrb);
 
-	MrbWrap::execute_script_file(mrb, "scripts/test.rb");
+	MRB_LOAD_SCRIPT(mrb, Scene);
 
-	mrb_define_method(mrb, mrb->kernel_module, "example_method", example_method, MRB_ARGS_NONE());
-	MrbWrap::execute_string(mrb, "example_method");
+	MrbWrap::execute_string(mrb, "$window = Window.new('Inuhh Shinvasion 2', 800, 600);$window.enable_vertical_sync;$scene = Scene.new");
 
-	//! Test 2
-
-	auto ruby_primitive_class = mrb_define_class(mrb, "Primitive", mrb->object_class);
-
-	mrb_define_method(mrb, ruby_primitive_class, "initialize", ruby_primitive_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_primitive_class, "test", ruby_primitive_test, MRB_ARGS_REQ(0));
-
-	MrbWrap::execute_string(mrb, "p = Primitive.new(1);p.test");
-	MrbWrap::execute_string(mrb, "q = Primitive.new(2);q.test");
-
-	if (mrb->exc) mrb_print_error(mrb);
-
-	//! Test 3
-
-	MrbWrap::execute_bytecode(mrb, compiled_ruby_test2);
-
-	MrbWrap::execute_script_file(mrb, "scripts/GlobalContainer.rb");
-	MrbWrap::execute_script_file(mrb, "scripts/Entity.rb");
-	if (mrb->exc) mrb_print_error(mrb);
-	
-	//! Actual code
-
-	auto ruby_window_class = mrb_define_class(mrb, "Window", mrb->object_class);
-
-	mrb_define_method(mrb, ruby_window_class, "initialize", ruby_window_init, MRB_ARGS_REQ(0));
-	mrb_define_method(mrb, ruby_window_class, "clear", ruby_window_clear, MRB_ARGS_REQ(0));
-	mrb_define_method(mrb, ruby_window_class, "display", ruby_window_display, MRB_ARGS_REQ(0));
-
-	MrbWrap::execute_script_file(mrb, "scripts/Scene.rb");
-
-	MrbWrap::execute_string(mrb, "$window = Window.new;$scene = Scene.new");
-
-	MrbWrap::execute_string(mrb, "while true do\n$scene.main_draw\nend");
-
-	//auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Inuhh Shinvasion 2");
-	//window->setVerticalSyncEnabled(true);
-
-	//while (window->isOpen()) {
-	//	window->clear();
-	//	window->display();
-	//}
+	MrbWrap::execute_string(mrb, "while $window.is_open? do\n$scene.main_draw\nend\n$window.close");
 
 	mrb_close(mrb);
 

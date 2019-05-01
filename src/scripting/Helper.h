@@ -7,6 +7,12 @@
 #include <mruby/compile.h>
 #include <string>
 
+#ifndef NDEBUG
+#define MRB_LOAD_SCRIPT(mrb, name) MrbWrap::execute_script_file(mrb, "scripts/" #name ".rb")
+#else
+#define MRB_LOAD_SCRIPT(mrb, name) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#endif
+
 namespace MrbWrap {
 
 	//! Some different ways to execute mruby code

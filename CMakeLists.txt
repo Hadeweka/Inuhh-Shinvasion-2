@@ -42,7 +42,8 @@ include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory(SFML)
 
-# Compile ruby scripts to bytecode
+# If this is a debug build, copy the ruby files to the build directory
+# Otherwise compile them to bytecode
 
 include_directories(${CMAKE_BINARY_DIR})
 
@@ -50,36 +51,24 @@ file(GLOB RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
 
 set(RUBY_COMPILED_TARGETS "")
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts)
+
+endif()
+
 foreach(RUBYSCRIPT ${RUBYSCRIPTS})
-	
-	file(READ ${RUBYSCRIPT} FILE_CONTENT)
-	string(FIND "${FILE_CONTENT}" "#INCLUDE_AS_C" FOUND_CONTENT)
 
 	get_filename_component(COMPILED_SCRIPT ${RUBYSCRIPT} NAME_WE)
 
-	if(${FOUND_CONTENT} EQUAL -1)
-
-		#MESSAGE("Found Ruby script for bytecode: ${RUBYSCRIPT}")
-
-		#add_custom_target(Target${COMPILED_SCRIPT} ALL
-		#	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/scripts
-		#	COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -o ${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.mrb ${RUBYSCRIPT}
-		#	DEPENDS ${RUBYSCRIPT} mruby
-		#	VERBATIM
-		#)
-
-		#MESSAGE("Found Ruby script for direct copy: ${RUBYSCRIPT}")
-
-		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts)
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 		configure_file(
 			${RUBYSCRIPT}
 			${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.rb
 		COPYONLY)
 
-	else()	
-
-		MESSAGE("Found Ruby script for C source file: ${RUBYSCRIPT}")
+	else()
 
 		add_custom_target(Target${COMPILED_SCRIPT}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
@@ -89,18 +78,13 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 		)
 
 		set(RUBY_COMPILED_TARGETS Target${COMPILED_SCRIPT} ${RUBY_COMPILED_TARGETS})
-
+		
 	endif()
 
 endforeach(RUBYSCRIPT)
 
 set(CORE_SOURCES
 	src/core/Window.cpp
-)
-
-set(COLLISION_SOURCES
-	src/collisions/Primitive.cpp
-	src/collisions/Shape.cpp
 )
 
 set(SCRIPTING_SOURCES
@@ -111,7 +95,6 @@ set(SCRIPTING_SOURCES
 
 set(SOURCES 
 	${CORE_SOURCES}
-	${COLLISION_SOURCES}
 	${SCRIPTING_SOURCES}
 	Main.cpp
 )
