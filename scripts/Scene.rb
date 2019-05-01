@@ -7,7 +7,6 @@ class Scene
 	end
 
 	def main_update
-		$game.update
 		update
 	end
 
