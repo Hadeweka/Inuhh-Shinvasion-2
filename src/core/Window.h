@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../scripting/Helper.h"
+#include "Helper.h"
 
 #include <SFML/Graphics.hpp>
 

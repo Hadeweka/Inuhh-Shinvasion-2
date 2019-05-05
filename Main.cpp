@@ -6,6 +6,8 @@ int main() {
 
 	MRB_LOAD_SCRIPT(mrb, GlobalContainer);
 
+	setup_ruby_class_core_entity(mrb);
+
 	MRB_LOAD_SCRIPT(mrb, Entity);
 
 	setup_ruby_class_window(mrb);

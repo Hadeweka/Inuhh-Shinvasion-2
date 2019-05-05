@@ -1,7 +1,8 @@
-class Entity
+class Entity < CoreEntity
 
 	@@boxes = GlobalContainer.new
 	@@shapes = GlobalContainer.new
+	@@textures = GlobalContainer.new
 	
 	def self.add_box(box, index: nil)
 		@@boxes.add(self, box, index)
@@ -11,12 +12,16 @@ class Entity
 		@@shapes.add(self, shape, index)
 	end
 
-	def initialize(x, y)
-		@x = x
-		@y = y
+	def self.add_texture(texture, index: nil)
+		@@textures.add(self, texture, index)
+	end
+
+	def initialize
+		super	# Call the CoreEntity super method to initialize the underlying C++ structure
 
 		load_boxes
 		load_shapes
+		load_textures
 	end
 
 	# Create local copies of all boxes/shapes/...
@@ -41,6 +46,16 @@ class Entity
 		end
 	end
 
+	def load_textures
+		@textures = []
+		subclass = self.class
+
+		0.upto(@@textures.size(subclass) - 1) do |i|
+			element = @@textures.get(subclass, i)
+			@textures[i] = element.dup if element
+		end
+	end
+
 end
 
 class TestEntity < Entity
@@ -50,14 +65,14 @@ class TestEntity < Entity
 	add_box("Hello")
 	add_box("Bla", index: 2)
 
-	def initialize(x, y)
-		super(x, y)
+	def initialize
+		super
 	end
 
 end
 
-a = TestEntity.new(3, 3)
-b = TestEntity.new(4, 5)
+a = TestEntity.new
+b = TestEntity.new
 
 a.boxes[2] = "New Test"
 

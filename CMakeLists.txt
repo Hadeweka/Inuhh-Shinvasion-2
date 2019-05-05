@@ -85,10 +85,16 @@ endforeach(RUBYSCRIPT)
 
 set(CORE_SOURCES
 	src/core/Window.cpp
+	src/core/CoreEntity.cpp
 )
 
 set(SCRIPTING_SOURCES
 	src/scripting/Helper.cpp
+)
+
+include_directories(
+	src/core 
+	src/scripting
 )
 
 # Load source files
