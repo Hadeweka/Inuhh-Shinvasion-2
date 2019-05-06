@@ -52,7 +52,11 @@ class Entity < CoreEntity
 
 		0.upto(@@textures.size(subclass) - 1) do |i|
 			element = @@textures.get(subclass, i)
-			@textures[i] = element.dup if element
+			# Don't duplicate textures but use a reference instead!
+			# Textures should not be changed, but the internal sprite properties may be changed in exchange.
+			# This is due to the internal structure of SFML in which sprites are much more variable than textures.
+			# Also textures are 'heavy' objects, while sprites are relatively lightweighted.
+			@textures[i] = element if element	
 		end
 	end
 
