@@ -4,8 +4,11 @@ int main() {
 
 	auto mrb = mrb_open();
 
+	setup_ruby_class_coordinates(mrb);
+
 	MRB_LOAD_SCRIPT(mrb, GlobalContainer);
 
+	setup_ruby_class_texture(mrb);
 	setup_ruby_class_core_entity(mrb);
 
 	MRB_LOAD_SCRIPT(mrb, Entity);

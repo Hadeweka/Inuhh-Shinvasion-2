@@ -7,6 +7,8 @@ set(CMAKE_SHARED_LINKER_FLAGS
 set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS}")
 
+add_definitions(-DMRB_USE_FLOAT)
+
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
 # Project name
@@ -84,8 +86,10 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 endforeach(RUBYSCRIPT)
 
 set(CORE_SOURCES
+	src/core/Coordinates.cpp
 	src/core/Window.cpp
 	src/core/CoreEntity.cpp
+	src/core/Texture.cpp
 )
 
 set(SCRIPTING_SOURCES

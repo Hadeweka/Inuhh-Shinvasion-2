@@ -8,6 +8,8 @@ MRuby::Build.new do |conf|
 
   conf.gembox 'default'
 
+  conf.cc.flags << '-DMRB_USE_FLOAT'
+
   conf.build_dir = ENV["MRUBY_BUILD_DIR"] || raise("MRUBY_BUILD_DIR undefined!")
 
 end
@@ -29,6 +31,7 @@ MRuby::Build.new('host-debug') do |conf|
 
   # C compiler settings
   conf.cc.defines = %w(MRB_ENABLE_DEBUG_HOOK)
+  conf.cc.flags << '-DMRB_USE_FLOAT'
 
   # Generate mruby debugger command (require mruby-eval)
   conf.gem :core => "mruby-bin-debugger"
@@ -50,6 +53,8 @@ MRuby::Build.new('test') do |conf|
   conf.enable_test
 
   conf.gembox 'default'
+
+  conf.cc.flags << '-DMRB_USE_FLOAT'
 end
 
 #MRuby::Build.new('bench') do |conf|

@@ -82,3 +82,8 @@ a.boxes[2] = "New Test"
 
 puts a.boxes
 puts b.boxes
+
+test = Coordinates.new(3.4, 10212121.0);
+
+puts test.x
+puts test.y
