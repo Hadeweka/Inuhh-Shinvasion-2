@@ -80,26 +80,12 @@ end
 # Test methods, which will be removed in later releases
 
 a = TestEntity.new
-b = TestEntity.new
+a.position = Coordinates.new(3, 2)
 
-a.boxes[2] = "New Test"
+a.position += Coordinates.new(1, -1.4)
 
-puts a.boxes
-puts b.boxes
+puts a.position.x
+puts a.position.y
 
-test = Coordinates.new(3.4, 10212121.0);
-
-test.x = 178.0
-
-puts test.x
-puts test.y
-
-test += test * 7
-
-puts test.x
-puts test.y
-
-test2 = Coordinates.new(39, 1);
-
-puts test.dot(test2)
-puts test.squared_norm
+puts a.position
+puts a.position.inspect

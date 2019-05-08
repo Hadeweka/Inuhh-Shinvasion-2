@@ -133,9 +133,31 @@ mrb_value ruby_coordinates_dot_product(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_squared_norm(mrb_state* mrb, mrb_value self) {
 
-	auto this_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
 
-	return mrb_float_value(mrb, this_vector->x * this_vector->x + this_vector->y * this_vector->y);
+	return mrb_float_value(mrb, content->x * content->x + content->y * content->y);
+}
+
+mrb_value ruby_coordinates_to_s(mrb_state* mrb, mrb_value self) {
+
+	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+
+	char buffer[100];
+	snprintf(buffer, 100, "%.8g %.8g", content->x, content->y);
+
+	return mrb_str_new_cstr(mrb, buffer);
+
+}
+
+mrb_value ruby_coordinates_inspect(mrb_state* mrb, mrb_value self) {
+
+	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+
+	char buffer[100];
+	snprintf(buffer, 100, "(%.8g | %.8g)", content->x, content->y);
+
+	return mrb_str_new_cstr(mrb, buffer);
+
 }
 
 void setup_ruby_class_coordinates(mrb_state* mrb) {
@@ -156,5 +178,8 @@ void setup_ruby_class_coordinates(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_coordinates_class, "dot", ruby_coordinates_dot_product, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_coordinates_class, "squared_norm", ruby_coordinates_squared_norm, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_coordinates_class, "to_s", ruby_coordinates_to_s, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_coordinates_class, "inspect", ruby_coordinates_inspect, MRB_ARGS_NONE());
 
 }

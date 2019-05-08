@@ -9,4 +9,7 @@
 mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self);
 mrb_value ruby_core_entity_set_texture(mrb_state* mrb, mrb_value self);
 
+mrb_value ruby_core_entity_position(mrb_state* mrb, mrb_value self);
+mrb_value ruby_core_entity_position_equals(mrb_state* mrb, mrb_value self);
+
 void setup_ruby_class_core_entity(mrb_state* mrb);
