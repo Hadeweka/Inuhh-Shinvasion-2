@@ -76,16 +76,3 @@ class TestEntity < Entity
 	end
 
 end
-
-# Test methods, which will be removed in later releases
-
-a = TestEntity.new
-a.position = Coordinates.new(3, 2)
-
-a.position += Coordinates.new(1, -1.4)
-
-puts a.position.x
-puts a.position.y
-
-puts a.position
-puts a.position.inspect
