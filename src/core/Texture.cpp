@@ -17,7 +17,7 @@ mrb_value ruby_texture_load_from_file(mrb_state* mrb, mrb_value self) {
 	auto texture = MrbWrap::convert_from_instance_variable<sf::Texture>(mrb, self, "@_texture");
 	texture->loadFromFile(filename);
 
-	return mrb_true_value();
+	return self;
 
 }
 

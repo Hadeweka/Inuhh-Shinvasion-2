@@ -18,6 +18,8 @@
 #define MRB_LOAD_SCRIPT(mrb, name) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 
+#include <iostream>
+
 namespace MrbWrap {
 
 	//! Some different ways to execute mruby code
@@ -41,14 +43,15 @@ namespace MrbWrap {
 
 	template <class T> static void free_data(mrb_state* mrb, void* object_ptr) {
 
-		reinterpret_cast<T*>(object_ptr)->~T();
+		static_cast<T*>(object_ptr)->~T();
+		free(object_ptr);
 
 	}
 
 	//! Creates a C++ instance of the class 'T' and wraps it directly into the ruby instance variable of the ruby object 'self'
 	//! Constructor arguments can be given as 'TArgs', if needed
 	//! DO NOT destroy the created object manually, the mruby garbage collector will do this for you!
-	template <class T, class ... TArgs> T* convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
+	template <class T, class ... TArgs> void convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
 
 		auto new_object = new T(args...);
 
@@ -65,8 +68,6 @@ namespace MrbWrap {
 
 		mrb_iv_set(mrb, self, symbol, mrb_obj_value(wrapper));
 
-		return new_object;
-
 	}
 
 	//! Obtains a pointer to the C++ object of class 'T' back from the instance variable with name 'var_c_str' from the ruby object 'self'
@@ -76,7 +77,7 @@ namespace MrbWrap {
 		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
 		auto type = DATA_TYPE(mrb_iv_get(mrb, self, symbol));
 
-		return reinterpret_cast<T*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
+		return static_cast<T*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
 
 	}
 
