@@ -12,7 +12,11 @@ mrb_value ruby_coordinates_y(mrb_state* mrb, mrb_value self);
 mrb_value ruby_coordinates_x_equals(mrb_state* mrb, mrb_value self);
 mrb_value ruby_coordinates_y_equals(mrb_state* mrb, mrb_value self);
 
-mrb_value ruby_coordinates_get(mrb_state* mrb, mrb_value self);
-mrb_value ruby_coordinates_set(mrb_state* mrb, mrb_value self);
+mrb_value ruby_coordinates_plus(mrb_state* mrb, mrb_value self);
+mrb_value ruby_coordinates_minus(mrb_state* mrb, mrb_value self);
+mrb_value ruby_coordinates_times(mrb_state* mrb, mrb_value self);
+
+mrb_value ruby_coordinates_dot_product(mrb_state* mrb, mrb_value self);
+mrb_value ruby_coordinates_squared_norm(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_class_coordinates(mrb_state* mrb);

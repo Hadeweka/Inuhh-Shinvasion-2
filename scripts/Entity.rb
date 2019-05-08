@@ -17,7 +17,8 @@ class Entity < CoreEntity
 	end
 
 	def initialize
-		super	# Call the CoreEntity super method to initialize the underlying C++ structure
+		# Call the CoreEntity super method to initialize the underlying C++ structure
+		super
 
 		load_boxes
 		load_shapes
@@ -52,6 +53,7 @@ class Entity < CoreEntity
 
 		0.upto(@@textures.size(subclass) - 1) do |i|
 			element = @@textures.get(subclass, i)
+
 			# Don't duplicate textures but use a reference instead!
 			# Textures should not be changed, but the internal sprite properties may be changed in exchange.
 			# This is due to the internal structure of SFML in which sprites are much more variable than textures.
@@ -75,6 +77,8 @@ class TestEntity < Entity
 
 end
 
+# Test methods, which will be removed in later releases
+
 a = TestEntity.new
 b = TestEntity.new
 
@@ -85,5 +89,17 @@ puts b.boxes
 
 test = Coordinates.new(3.4, 10212121.0);
 
+test.x = 178.0
+
 puts test.x
 puts test.y
+
+test += test * 7
+
+puts test.x
+puts test.y
+
+test2 = Coordinates.new(39, 1);
+
+puts test.dot(test2)
+puts test.squared_norm
