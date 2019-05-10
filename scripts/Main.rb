@@ -9,6 +9,9 @@ begin
 		$scene.main_draw
 		$scene.process_events
 		$scene.main_update
+
+		# The frequency of the Garbage Collector may be subject to change
+		GC.start
 	end
 
 	$window.close

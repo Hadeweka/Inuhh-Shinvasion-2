@@ -17,13 +17,11 @@ class Scene
 
 	def initialize
 		at_init
+		@sprites = []
 	end
 
 	def main_update
 		update
-
-		# The frequency of the Garbage Collector may be subject to change
-		GC.start
 	end
 
 	def main_draw
@@ -43,7 +41,9 @@ class Scene
 	end
 
 	def update
-		
+		c = CoreEntity.new
+		c.position = Coordinates.new(3, 2)
+		#puts c.position.inspect
 	end
 
 	def draw

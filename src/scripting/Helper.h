@@ -41,10 +41,13 @@ namespace MrbWrap {
 	//! Fastest way to load a script, but needs some setup work
 	void execute_bytecode(mrb_state* mrb, const uint8_t* symbol_array);
 
-	template <class T> static void free_data(mrb_state* mrb, void* object_ptr) {
+	static void free_data(mrb_state* mrb, void* object_ptr) {
 
-		static_cast<T*>(object_ptr)->~T();
-		free(object_ptr);
+		delete object_ptr;
+
+	}
+
+	static void free_ptr_data(mrb_state* mrb, void* object_ptr) {
 
 	}
 
@@ -57,7 +60,7 @@ namespace MrbWrap {
 
 		static const struct mrb_data_type data_type = {
 
-			data_type_c_str, free_data<T>
+			data_type_c_str, free_data
 
 		};
 
@@ -78,6 +81,36 @@ namespace MrbWrap {
 		auto type = DATA_TYPE(mrb_iv_get(mrb, self, symbol));
 
 		return static_cast<T*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
+
+	}
+
+	template <class T, class ... TArgs> void convert_ptr_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
+
+		auto new_object = std::make_shared<T>(args...);
+
+		static const struct mrb_data_type data_type = {
+
+			data_type_c_str, free_ptr_data
+
+		};
+
+		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
+		auto wrapper = Data_Wrap_Struct(mrb, mrb->object_class, &data_type, &new_object);
+
+		mrb_iv_set(mrb, self, symbol, mrb_obj_value(wrapper));
+
+	}
+
+	template <class T> std::shared_ptr<T> convert_ptr_from_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str) {
+
+		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
+		auto type = DATA_TYPE(mrb_iv_get(mrb, self, symbol));
+
+		auto shared_ptr_ptr = static_cast<std::shared_ptr<T>*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
+
+		//! TODO: Shared Pointer is already corrupted here! Find out why!
+
+		return *shared_ptr_ptr;
 
 	}
 

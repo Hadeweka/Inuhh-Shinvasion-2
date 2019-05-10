@@ -1,5 +1,13 @@
 ﻿#include "Main.h"
 
+void test() {
+
+	auto s = new sf::Sprite;
+
+	delete s;
+
+}
+
 int main() {
 
 	auto mrb = mrb_open();
@@ -21,6 +29,17 @@ int main() {
 
 	mrb_close(mrb);
 
-	return 0;
+	//auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Test");
+
+	//while (true) {
+	//	window->clear();
+	//	window->setVerticalSyncEnabled(true);
+	//	test();
+	//	sf::Event event;
+	//	while (window->pollEvent(event)) if (event.key.code == sf::Keyboard::Escape) exit(1);
+	//	window->display();
+	//}
+
+	//return 0;
 
 }

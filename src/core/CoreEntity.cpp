@@ -1,6 +1,11 @@
 #include "CoreEntity.h"
 
 #include <iostream>
+#include <mruby/data.h>
+
+static void free_data(mrb_state* mrb, void* object_ptr) {
+
+}
 
 mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
