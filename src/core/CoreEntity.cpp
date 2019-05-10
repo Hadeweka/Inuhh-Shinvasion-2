@@ -5,11 +5,23 @@
 
 static void free_data(mrb_state* mrb, void* object_ptr) {
 
+	delete object_ptr;
+
 }
 
 mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_instance_variable<sf::Sprite>(mrb, self, "@_sprite", "sprite");
+	//MrbWrap::convert_to_instance_variable<sf::Sprite>(mrb, self, "@_sprite", "sprite");
+
+	static const struct mrb_data_type data_type = {
+
+			"sprite", free_data
+
+	};
+
+	sf::Sprite* sprite = new sf::Sprite();
+	delete sprite;
+	mrb_data_init(self, sprite, &data_type);
 
 	return self;
 

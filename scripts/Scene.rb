@@ -42,7 +42,7 @@ class Scene
 
 	def update
 		c = CoreEntity.new
-		c.position = Coordinates.new(3, 2)
+		#c.position = Coordinates.new(3, 2)
 		#puts c.position.inspect
 	end
 
