@@ -12,6 +12,7 @@
 #include "compiled_scripts/Entity.h"
 #endif
 
+#include "ResourceManager.h"
 #include "Coordinates.h"
 #include "CoreEntity.h"
 #include "Window.h"

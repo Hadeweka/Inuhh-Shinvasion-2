@@ -86,6 +86,7 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 endforeach(RUBYSCRIPT)
 
 set(CORE_SOURCES
+	src/core/ResourceManager.cpp
 	src/core/Coordinates.cpp
 	src/core/Window.cpp
 	src/core/CoreEntity.cpp

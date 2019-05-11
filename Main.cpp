@@ -11,6 +11,8 @@ void test() {
 int main() {
 
 	auto mrb = mrb_open();
+	
+	setup_ruby_class_resource_manager(mrb);
 
 	setup_ruby_class_coordinates(mrb);
 

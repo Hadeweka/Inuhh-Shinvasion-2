@@ -33,7 +33,7 @@ class Scene
 	# Change these at will if inherited
 
 	def at_init
-
+		@c = ResourceManager.new
 	end
 
 	def at_exit
@@ -41,7 +41,8 @@ class Scene
 	end
 
 	def update
-		c = CoreEntity.new
+		@c.test
+		@c.test2
 		#c.position = Coordinates.new(3, 2)
 		#puts c.position.inspect
 	end
