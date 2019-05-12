@@ -1,8 +1,11 @@
 #pragma once
 
+#include <queue>
 #include <SFML/Graphics.hpp>
 
 #include "Helper.h"
+
+//! May be generalized into a template class
 
 class ResourceManager {
 
@@ -11,13 +14,14 @@ public:
 	ResourceManager();
 	~ResourceManager();
 
-	unsigned int add_sprite();
-	void delete_sprite(unsigned int index);
-	std::shared_ptr<sf::Sprite> access_sprite(unsigned int index);
+	int add_sprite();
+	void delete_sprite(int index);
+	std::shared_ptr<sf::Sprite> access_sprite(int index);
 
 private:
 
-	std::vector<std::shared_ptr<sf::Sprite>> sprites;
+	std::vector<std::shared_ptr<sf::Sprite>> contents;
+	std::queue<int> free_spots;
 
 };
 

@@ -4,9 +4,30 @@
 
 mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
-	//MrbWrap::convert_to_instance_variable<sf::Sprite>(mrb, self, "@_sprite", "sprite");
+	mrb_value ruby_resource_manager;
+
+	mrb_get_args(mrb, "o", &ruby_resource_manager);
+
+	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, self, "@_manager");
+	auto sprite_index = resource_manager->add_sprite();
 
 	return self;
+
+}
+
+mrb_value ruby_core_entity_delete(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_resource_manager;
+
+	mrb_get_args(mrb, "o", &ruby_resource_manager);
+	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, self, "@_manager");
+
+	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
+	auto sprite_index = static_cast<int>(mrb_iv_get(mrb, self, symbol));
+
+	resource_manager->delete_sprite(sprite_index);
+
+	return mrb_true_value();
 
 }
 
