@@ -2,6 +2,10 @@
 
 ResourceManager::ResourceManager() {
 
+	//! Reserve some spots to ensure faster access
+	//! 1000 should be the absolutely maximal number of entities in the world
+	contents.reserve(1000);
+
 }
 
 ResourceManager::~ResourceManager() {
@@ -12,13 +16,13 @@ int ResourceManager::add_sprite() {
 
 	if (free_spots.empty()) {
 
-		contents.push_back(std::make_shared<sf::Sprite>());
+		contents.push_back(std::make_unique<sf::Sprite>());
 		return contents.size() - 1;
 
 	} else {
 
 		auto index = free_spots.front();
-		contents[index] = std::make_shared<sf::Sprite>();
+		contents[index] = std::make_unique<sf::Sprite>();
 		free_spots.pop();
 
 		return index;
@@ -33,9 +37,9 @@ void ResourceManager::delete_sprite(int index) {
 
 }
 
-std::shared_ptr<sf::Sprite> ResourceManager::access_sprite(int index) {
+sf::Sprite* ResourceManager::access_sprite(int index) {
 
-	return contents[index];
+	return contents[index].get();
 
 }
 

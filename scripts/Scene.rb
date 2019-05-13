@@ -34,6 +34,14 @@ class Scene
 
 	def at_init
 		@c = ResourceManager.new
+		a = CoreEntity.new(@c)
+		b = CoreEntity.new(@c)
+		c = CoreEntity.new(@c)
+		b.delete
+		d = CoreEntity.new(@c)
+		a.delete
+		c.delete
+		d.delete
 	end
 
 	def at_exit
@@ -41,10 +49,7 @@ class Scene
 	end
 
 	def update
-		@c.test
-		@c.test2
-		#c.position = Coordinates.new(3, 2)
-		#puts c.position.inspect
+		
 	end
 
 	def draw

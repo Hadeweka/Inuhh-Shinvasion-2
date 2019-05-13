@@ -1,6 +1,5 @@
 #include "CoreEntity.h"
 
-#include <mruby/data.h>
 
 mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
@@ -8,8 +7,13 @@ mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_resource_manager);
 
-	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, self, "@_manager");
+	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
 	auto sprite_index = resource_manager->add_sprite();
+
+	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
+	mrb_iv_set(mrb, self, symbol, mrb_fixnum_value(sprite_index));
+	static auto symbol_2 = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));	//! TODO: Cache this
+	mrb_iv_set(mrb, self, symbol_2, ruby_resource_manager);
 
 	return self;
 
@@ -17,13 +21,14 @@ mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_core_entity_delete(mrb_state* mrb, mrb_value self) {
 
-	mrb_value ruby_resource_manager;
+	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));	//! TODO: Cache this
+	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
+	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
 
-	mrb_get_args(mrb, "o", &ruby_resource_manager);
-	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, self, "@_manager");
+	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
+	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
-	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
-	auto sprite_index = static_cast<int>(mrb_iv_get(mrb, self, symbol));
+	std::cout << sprite_index << std::endl;
 
 	resource_manager->delete_sprite(sprite_index);
 
@@ -95,7 +100,8 @@ void setup_ruby_class_core_entity(mrb_state* mrb) {
 
 	auto ruby_core_entity_class = mrb_define_class(mrb, "CoreEntity", mrb->object_class);
 
-	mrb_define_method(mrb, ruby_core_entity_class, "initialize", ruby_core_entity_init, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_core_entity_class, "initialize", ruby_core_entity_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_core_entity_class, "delete", ruby_core_entity_delete, MRB_ARGS_NONE());
 	
 	mrb_define_method(mrb, ruby_core_entity_class, "link_texture", ruby_core_entity_link_texture, MRB_ARGS_REQ(1));
 

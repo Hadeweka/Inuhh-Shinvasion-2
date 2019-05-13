@@ -16,11 +16,12 @@ public:
 
 	int add_sprite();
 	void delete_sprite(int index);
-	std::shared_ptr<sf::Sprite> access_sprite(int index);
+	sf::Sprite* access_sprite(int index);
 
 private:
 
-	std::vector<std::shared_ptr<sf::Sprite>> contents;
+	//! Use unique_ptr to optimize performance, and just give out raw pointers
+	std::vector<std::unique_ptr<sf::Sprite>> contents;
 	std::queue<int> free_spots;
 
 };

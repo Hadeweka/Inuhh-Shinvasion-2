@@ -48,10 +48,6 @@ namespace MrbWrap {
 
 	}
 
-	static void free_ptr_data(mrb_state* mrb, void* object_ptr) {
-
-	}
-
 	//! Creates a C++ instance of the class 'T' and wraps it directly into the ruby instance variable of the ruby object 'self'
 	//! Constructor arguments can be given as 'TArgs', if needed
 	//! DO NOT destroy the created object manually, the mruby garbage collector will do this for you!
