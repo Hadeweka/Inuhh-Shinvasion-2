@@ -85,12 +85,20 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 
 endforeach(RUBYSCRIPT)
 
+# Source files
+
+set(GRAPHICS_SOURCES
+	src/graphics/ResourceManager.cpp
+	src/graphics/Window.cpp
+	src/graphics/Texture.cpp
+)
+
+set(MAP_SOURCES
+)
+
 set(CORE_SOURCES
-	src/core/ResourceManager.cpp
 	src/core/Coordinates.cpp
-	src/core/Window.cpp
 	src/core/CoreEntity.cpp
-	src/core/Texture.cpp
 )
 
 set(SCRIPTING_SOURCES
@@ -99,12 +107,16 @@ set(SCRIPTING_SOURCES
 
 include_directories(
 	src/core 
+	src/graphics
+	src/map
 	src/scripting
 )
 
 # Load source files
 
 set(SOURCES 
+	${GRAPHICS_SOURCES}
+	${MAP_SOURCES}
 	${CORE_SOURCES}
 	${SCRIPTING_SOURCES}
 	Main.cpp

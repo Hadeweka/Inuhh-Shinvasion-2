@@ -28,8 +28,6 @@ mrb_value ruby_core_entity_delete(mrb_state* mrb, mrb_value self) {
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
 	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
-	std::cout << sprite_index << std::endl;
-
 	resource_manager->delete_sprite(sprite_index);
 
 	return mrb_true_value();

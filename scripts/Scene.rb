@@ -16,8 +16,8 @@ class Scene
 	# Methods for internal stuff, don't change these if inherited
 
 	def initialize
+		@sprites = ResourceManager.new
 		at_init
-		@sprites = []
 	end
 
 	def main_update
@@ -33,12 +33,11 @@ class Scene
 	# Change these at will if inherited
 
 	def at_init
-		@c = ResourceManager.new
-		a = CoreEntity.new(@c)
-		b = CoreEntity.new(@c)
-		c = CoreEntity.new(@c)
+		a = CoreEntity.new(@sprites)
+		b = CoreEntity.new(@sprites)
+		c = CoreEntity.new(@sprites)
 		b.delete
-		d = CoreEntity.new(@c)
+		d = CoreEntity.new(@sprites)
 		a.delete
 		c.delete
 		d.delete
