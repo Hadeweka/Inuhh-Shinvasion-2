@@ -88,28 +88,28 @@ endforeach(RUBYSCRIPT)
 # Source files
 
 set(GRAPHICS_SOURCES
-	src/graphics/ResourceManager.cpp
-	src/graphics/Window.cpp
-	src/graphics/Texture.cpp
+	Shidacea/graphics/ResourceManager.cpp
+	Shidacea/graphics/Window.cpp
+	Shidacea/graphics/Texture.cpp
 )
 
 set(MAP_SOURCES
 )
 
 set(CORE_SOURCES
-	src/core/Coordinates.cpp
-	src/core/CoreEntity.cpp
+	Shidacea/core/Coordinates.cpp
+	Shidacea/core/CoreEntity.cpp
 )
 
 set(SCRIPTING_SOURCES
-	src/scripting/Helper.cpp
+	Shidacea/scripting/Helper.cpp
 )
 
 include_directories(
-	src/core 
-	src/graphics
-	src/map
-	src/scripting
+	Shidacea/core 
+	Shidacea/graphics
+	Shidacea/map
+	Shidacea/scripting
 )
 
 # Load source files
