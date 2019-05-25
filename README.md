@@ -15,11 +15,13 @@ Implemented features yet:
 Features I'm currently working on:
 
 * Map routines
-* Collision detection routines
-* Game physics
 * Simple state machine for scenes
 * Exporting the Shidacea-Engine into a separate repository
 
 Things I will eventually do:
 
+* Game physics
 * Basic game logic
+* Implement 
+* Collision detection routines
+* Implement support for Tiled and ImGui
