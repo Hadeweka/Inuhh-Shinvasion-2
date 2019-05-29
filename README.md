@@ -11,23 +11,4 @@ Necessary build tools (executables need to be in path variable on Windows):
 * Ruby
 * GNU Bison
 
-Implemented features yet:
-
-* Included SFML and mruby
-* Implemented support for Ruby scripts compiled into bytecode
-* Template magic for wrapping C++ classes into Ruby classes
-* Basic wrappers for some SFML classes
-
-Features I'm currently working on:
-
-* Map routines
-* Simple state machine for scenes
-* Exporting the Shidacea-Engine into a separate repository
-
-Things I will eventually do:
-
-* Game physics
-* Basic game logic
-* Implement 
-* Collision detection routines
-* Implement support for Tiled and ImGui
+This repository will be developed parallel to the Shidacea Engine.
