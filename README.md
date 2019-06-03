@@ -11,4 +11,7 @@ Necessary build tools (executables need to be in path variable on Windows):
 * Ruby
 * GNU Bison
 
-This repository will be developed parallel to the Shidacea Engine.
+# Note
+
+The development of this repository will continue after finishing the Shidacea Engine.
+See https://github.com/Hadeweka/Shidacea for progress.
