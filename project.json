@@ -1,0 +1,38 @@
+{
+	"title": "Inuhh Shinvasion 2",
+
+	"subtitle": "TODO",
+
+	"description": "TODO",
+
+	"genres": [
+		"Platformer"
+	],
+
+	"project_version": "0.0.1",
+
+	"shidacea_version": "0.3.0",
+
+	"developers": [
+		"Hadeweka"
+	],
+
+	"year": 2022,
+
+	"keywords": [
+		"inuhh",
+		"dog",
+		"jump-n-run"
+	],
+
+	"thumbnail": "Thumbnail128.png",
+
+	"screenshots": [
+	],
+
+	"jingle": "",
+
+	"scripts": [
+		"Test.rb"
+	]
+}
