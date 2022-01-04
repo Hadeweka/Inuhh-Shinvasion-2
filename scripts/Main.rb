@@ -1,1 +1,0 @@
-main_routine(Scene)

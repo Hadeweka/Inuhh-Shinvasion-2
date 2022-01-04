@@ -1,7 +1,0 @@
-[submodule "mruby"]
-	path = mruby
-	url = https://github.com/mruby/mruby
-	branch = stable
-[submodule "SFML"]
-	path = SFML
-	url = https://github.com/SFML/SFML
